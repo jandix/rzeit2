@@ -12,7 +12,7 @@ get_article_text(url, timeout = NULL)
 \item{timeout}{}
 }
 \description{
-Get article text
+Get the article text for a single url or a vector of urls.
 }
 \examples{
 get_article_text(url = "http://www.zeit.de/kultur/film/2018-04/tatort-frankfurt-unter-kriegern-obduktionsbericht")
