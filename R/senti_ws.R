@@ -1,0 +1,18 @@
+#' SentimentWortschatz (SentiWS)
+#'
+#' SentiWS is a publicly available German-language resource for sentiment analysis,
+#' opinion mining etc. It lists positive and negative polarity bearing words
+#' weighted within the interval of [-1; 1] plus their part of speech tag,
+#' and if applicable, their inflections.
+#'
+#' @format A data frame with 3468 rows and 2 variables:
+#' \describe{
+#'   \item{word}{word}
+#'   \item{score}{score of the respective word}
+#' }
+#'
+#' @source R. Remus, U. Quasthoff & G. Heyer: SentiWS - a Publicly Available
+#' German-language Resource for Sentiment Analysis. In: Proceedings of the
+#' 7th International Language Ressources and Evaluation (LREC'10), pp. 1168-1171, 2010
+#' \url{http://wortschatz.uni-leipzig.de/en/download/}
+"senti_ws"
