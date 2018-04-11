@@ -2,4 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-.Rproj
+rzeit2.Rproj
+inst/doc
