@@ -1,15 +1,24 @@
 Package: rzeit2
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Client for the ZEIT ONLINE Content API
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: person("Jan", "Dix", email = "jan.dix@uni-konstanz.de",
+                  role = c("aut", "cre"))
+Maintainer: Jan Dix <jan.dix@uni-konstanz.de>
+Description: Interface to gather newspaper articles from 'DIE ZEIT' and 'ZEIT ONLINE', based on a multilevel query. A personal API key is required for usage.
+License: MIT
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Suggests: knitr,
-    rmarkdown
+Imports:
+    anytime,
+    httr,
+    jsonlite,
+    stringr,
+    xml2
+Suggests:
+    dplyr,
+    knitr,
+    rmarkdown,
+    tidytext
 VignetteBuilder: knitr

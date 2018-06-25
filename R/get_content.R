@@ -1,12 +1,24 @@
-#' Query content endpoint
+#' Content endpoint
 #'
-#' @param query
-#' @param limit
-#' @param offset
-#' @param sort
-#' @param begin_date
-#' @param end_date
-#' @param api_key
+#' Exposes a search in the ZEIT online archive on the content endpoint and returns results for the given query.
+#'
+#' @param query character. Search query term.
+#' @param limit integer. The number of results given back. Please use \code{\link{get_content_all}} if the limit exceeds 1000 rows.
+#' @param offset integer. Offset for the list of matches.
+#' @param sort character. Sort search result by various fields. Fo example: \code{sort=release_date asc, uuid desc}.
+#' @param begin_date character. Begin date - Restricts responses to results with publication dates of the date specified or later. In the form YYYYMMDD.
+#' @param end_date character. End date - Restricts responses to results with publication dates of the date specified or earlier. In the form YYYYMMDD.
+#' @param api_key character. The personal api code. To request an API key see: \url{http://developer.zeit.de/quickstart/} This parameter is by default set to the R Environment.
+#'
+#' @details \code{get_content} is the function, which interacts directly with the ZEIT Online API. I only used the content endpoint for this package. There are further endpoints (e.g. /author, /product) not included into this package to further specify the search if needed. The whole list of possible endpoints can be accessed here \url{http://developer.zeit.de/docs/}.
+#'
+#' @return A list including articles and meta information about the query.
+#'
+#' @references \url{http://developer.zeit.de}
+#'
+#' @author Jan Dix <\email{jan.dix@@uni-konstanz.de}>
+#'
+#' @seealso \code{\link{get_content_all}}
 #'
 #' @examples
 #' get_content(query = "Merkel")
@@ -100,4 +112,16 @@ get_content <- function (query,
     ),
     class="zeit_api_content"
   )
+}
+
+is.zeit_api_content <- function(x) inherits(x, "zeit_api_content")
+
+print.zeit_api_content <- function(x) {
+  cat(format("ZEIT ONLINE CONTENT ENDPOINT\n\n"))
+  cat(format(paste("Number of Articles", "\n")))
+  cat(format(paste("  Found:", x$meta$found, "\n")))
+  cat(format(paste("  Limit:", x$meta$limit, "\n")))
+  cat(format(paste("  Offset:", x$meta$offset, "\n")))
+  cat(format(paste("Time Period:", min(x$content$release_date), "-", max(x$content$release_date), "\n")))
+  cat(format(paste("URL:", x$meta$url, "\n")))
 }

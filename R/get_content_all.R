@@ -1,15 +1,28 @@
-#' Query content endpoint
+#' Content endpoint (all)
 #'
-#' @param query
-#' @param timeout
-#' @param begin_date
-#' @param end_date
-#' @param api_key
+#' Exposes a search in the ZEIT online archive on the content endpoint and returns results for the given query. Performs multiple queries if limit exceeds 1000 rows.
+#'
+#' @param query character. Search query term.
+#' @param timeout integer. Seconds to wait between queries.
+#' @param begin_date begin_date character. Begin date - Restricts responses to results with publication dates of the date specified or later. In the form YYYYMMDD.
+#' @param end_date character. End date - Restricts responses to results with publication dates of the date specified or earlier. In the form YYYYMMDD.
+#' @param api_key api_key character. The personal api code. To request an API key see: \url{http://developer.zeit.de/quickstart/} This parameter is by default set to the R Environment.
+#'
+#' @details \code{get_content} is the function, which interacts directly with the ZEIT Online API. I only used the content endpoint for this package. There are further endpoints (e.g. /author, /product) not included into this package to further specify the search if needed. The whole list of possible endpoints can be accessed here \url{http://developer.zeit.de/docs/}.
+#'
+#' @return A list including articles and meta information about the query.
+#'
+#' @references \url{http://developer.zeit.de}
+#'
+#' @author Jan Dix <\email{jan.dix@@uni-konstanz.de}>
+#'
+#' @seealso \code{\link{get_content}}
 #'
 #' @examples
-#' get_content_all(query = "Merkel")
+#' get_content(query = "Merkel")
 #'
 #' @export
+
 
 # fetch all articles
 get_content_all <- function(query,
@@ -43,7 +56,7 @@ get_content_all <- function(query,
     offsets <- seq(from = limit, to = to, by = limit)
 
     # set progress bar
-    pb <- txtProgressBar(min = 0, max = to, style = 3)
+    pb <- utils::txtProgressBar(min = 0, max = to, style = 3)
 
     for (offset in offsets) {
 
@@ -61,7 +74,7 @@ get_content_all <- function(query,
       initial_response$content <- rbind(initial_response$content, response$content)
 
       # update progress bar
-      setTxtProgressBar(pb, offset)
+      utils::setTxtProgressBar(pb, offset)
 
       # sleep to avoid rate limit
       Sys.sleep(timeout)

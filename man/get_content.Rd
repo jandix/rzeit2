@@ -2,19 +2,46 @@
 % Please edit documentation in R/get_content.R
 \name{get_content}
 \alias{get_content}
-\title{Query content endpoint}
+\title{Content endpoint}
 \usage{
 get_content(query, limit = 10, offset = 0, sort = "release_date asc",
   begin_date = NULL, end_date = NULL,
   api_key = Sys.getenv("ZEIT_ONLINE_KEY"))
 }
 \arguments{
-\item{api_key}{}
+\item{query}{character. Search query term.}
+
+\item{limit}{integer. The number of results given back. Please use \code{\link{get_content_all}} if the limit exceeds 1000 rows.}
+
+\item{offset}{integer. Offset for the list of matches.}
+
+\item{sort}{character. Sort search result by various fields. Fo example: \code{sort=release_date asc, uuid desc}.}
+
+\item{begin_date}{character. Begin date - Restricts responses to results with publication dates of the date specified or later. In the form YYYYMMDD.}
+
+\item{end_date}{character. End date - Restricts responses to results with publication dates of the date specified or earlier. In the form YYYYMMDD.}
+
+\item{api_key}{character. The personal api code. To request an API key see: \url{http://developer.zeit.de/quickstart/} This parameter is by default set to the R Environment.}
+}
+\value{
+A list including articles and meta information about the query.
 }
 \description{
-Query content endpoint
+Exposes a search in the ZEIT online archive on the content endpoint and returns results for the given query.
+}
+\details{
+\code{get_content} is the function, which interacts directly with the ZEIT Online API. I only used the content endpoint for this package. There are further endpoints (e.g. /author, /product) not included into this package to further specify the search if needed. The whole list of possible endpoints can be accessed here \url{http://developer.zeit.de/docs/}.
 }
 \examples{
 get_content(query = "Merkel")
 
+}
+\references{
+\url{http://developer.zeit.de}
+}
+\seealso{
+\code{\link{get_content_all}}
+}
+\author{
+Jan Dix <\email{jan.dix@uni-konstanz.de}>
 }

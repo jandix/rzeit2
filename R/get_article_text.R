@@ -2,8 +2,13 @@
 #'
 #' Get the article text for a single url or a vector of urls.
 #'
-#' @param url a single character string or character vector.
-#' @param timeout
+#' @param url character. a single character string or character vector.
+#' @param integer. Seconds to wait between queries.
+#' @details \code{get_article_text} is the function, which fetches and parses an article. This function may break in the future due to layout changes on the ZEIT ONLINE website.
+#'
+#' @return A named character vector with the respective text.
+#'
+#' @author Jan Dix <\email{jan.dix@@uni-konstanz.de}>
 #'
 #' @examples
 #' get_article_text(url = "http://www.zeit.de/kultur/film/2018-04/tatort-frankfurt-unter-kriegern-obduktionsbericht")
@@ -38,7 +43,7 @@ get_article_text <- function (url,
     if(!is.null(article)) {
 
       # extract article text
-      nodes <- rvest::html_nodes(article, ".article-page")
+      nodes <- rvest::html_nodes(article, ".article-page p")
       html <- rvest::html_text(nodes)
       text <- paste(html, collapse = " ")
 
@@ -49,5 +54,6 @@ get_article_text <- function (url,
     }
   }
 
-  test <- sapply(url, fetch_article)
+  # apply function to all urls
+  sapply(url, fetch_article)
 }
