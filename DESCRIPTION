@@ -6,7 +6,7 @@ Authors@R: person("Jan", "Dix", email = "jan.dix@uni-konstanz.de",
                   role = c("aut", "cre"))
 Maintainer: Jan Dix <jan.dix@uni-konstanz.de>
 Description: Interface to gather newspaper articles from 'DIE ZEIT' and 'ZEIT ONLINE', based on a multilevel query. A personal API key is required for usage.
-License: MIT + file
+License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 3.2.0)
 BugReports: https://github.com/jandix/rzeit2/issues
