@@ -2,7 +2,7 @@
 #'
 #'@description \code{get_cleint} returns API access status and usage.
 #'
-#'@param api character. The personal api code. To request an API key see: \url{http://developer.zeit.de/quickstart/} This parameter is by default set to the R Environment.
+#'@param api_key character. The personal api code. To request an API key see: \url{http://developer.zeit.de/quickstart/} This parameter is by default set to the R Environment.
 #'
 #'@return a list of information about the client and API usage
 #'@author Jan Dix (\email{jan.dix@@uni-konstanz.de})

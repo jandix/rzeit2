@@ -9,7 +9,7 @@ get_article_text(url, timeout = NULL)
 \arguments{
 \item{url}{character. a single character string or character vector.}
 
-\item{integer.}{Seconds to wait between queries.}
+\item{timeout}{integer. Seconds to wait between queries.}
 }
 \value{
 A named character vector with the respective text.

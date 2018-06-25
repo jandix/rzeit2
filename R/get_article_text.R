@@ -3,7 +3,7 @@
 #' Get the article text for a single url or a vector of urls.
 #'
 #' @param url character. a single character string or character vector.
-#' @param integer. Seconds to wait between queries.
+#' @param timeout integer. Seconds to wait between queries.
 #' @details \code{get_article_text} is the function, which fetches and parses an article. This function may break in the future due to layout changes on the ZEIT ONLINE website.
 #'
 #' @return A named character vector with the respective text.
