@@ -1,4 +1,4 @@
-This package is the lightweight successor of the [rzeit](https://github.com/jandix/rzeit) package. 
+This package is the lightweight successor of the [rzeit](https://github.com/jandix/rzeit) package. The main functions are completly rewritten using `httr`. Additionally the package provides a new functionality to directly download article texts using web scraping. Old grouping and visualisation functions are removed and will probably rewritten in the future, too. 
 
 # Purpose / Description
 
