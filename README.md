@@ -6,7 +6,7 @@
 
 Client for the ZEIT ONLINE Content API - Interface to gather newspaper articles from *DIE ZEIT* and *ZEIT ONLINE*, based on a multilevel query.
 
-This package is a lightweight successor of the [rzeit](https://github.com/jandix/rzeit) package. The main functions are completly rewritten using `httr`. Additionally the package provides a new functionality to directly download article texts using web scraping. Old grouping and visualisation functions are removed and will probably rewritten in the future, too. 
+This package is a lightweight successor of the [rzeit](https://github.com/jandix/rzeit) package. The main functions are completly rewritten using `httr`. Additionally the package provides a new functionality to directly download article texts using web scraping. Old grouping and visualisation functions are removed and will probably also rewritten in the future. 
 
 ## Status
 
@@ -24,4 +24,4 @@ Jan Dix
 [jan.dix@uni-konstanz.de](mailto:jan.dix@uni-konstanz.de)
 
 
-Special thanks to [Simon Munzert](http://simonmunzert.github.io/), who helped me entering the world of R and GitHub.
+Special thanks to [Simon Munzert](http://simonmunzert.github.io/), who helped me entering the world of R and GitHub. Additionally, I would like to thank Peter Meißner and Christian Graul who helped with the first version of this package. Lastly, I would like to thank Jana Blahak who wrote the documentation for the first package which is widely reused. 
