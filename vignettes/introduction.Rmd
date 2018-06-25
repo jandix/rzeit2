@@ -9,57 +9,61 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+This is an introductory vignette to the rzeit package. The package connects to the Content API and gives access to articles and corresponding metadata from the DIE ZEIT archive dating back to 1946 and from ZEIT Online. DIE ZEIT is the most widely read German weekly newspaper. The API can be used for free for non-commercial use cases. For the terms of use see [http://developer.zeit.de/licence](http://developer.zeit.de/licence) (German only at the moment).
+
+In short the package allows you to:
+
+- conduct an unfiltered search for articles,
+- use a variety of parameters to refine query fields, e.g. to specify content and time, and
+- easily inspect meta as well as article data.
+
+The package is made publicly available at [GitHub](https://github.com/tollpatsch/rzeit). In this vignette I demonstrate basic features of the package. In a second vignette, I will dig deeper into the matter and show how the package can be used to download articles and calculate the sentiment for the respective articles.
+
+## Setup
+
+Currently, the package is only available on GitHub. Using the `devtools` package, you can easily install it:
+
+```{r install github, warning = FALSE, results = "hide", message = FALSE, eval = FALSE}
+devtools::install_github("jandix/rzeit2")
 ```
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
-
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
-
-## Vignette Info
-
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+```{r loading rzeit, warning = FALSE, results = "hide", message = FALSE, eval = TRUE}
+library(rzeit2)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+To be able to work with the API, we have to fetch an API key first. There is no sophisticated authentication process involved here--just go to the [developer page](http://developer.zeit.de/quickstart/) and sign up by providing your name and a valid email address.
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+With `set_api_key()`, I provide a comfortable function that stores the key in the `R` environment. You only have to do this once; the next time `R` is launched this key is automatically available and fetched by the package's functions:
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+```{r set key, warning = FALSE, message = FALSE, eval = FALSE}
+set_api_key(api_key = "set_your_api_key_here")
 ```
 
-Also a quote using `>`:
+Next, we can start tapping the API. `get_content` represents the core function of the package. Again, because the api key is stored in the environment, we do not have to pass the key explicitly (but still  could do so using the `api` argument). As an example, we collect articles that include "Merkel" in the article body, headline or byline:
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+```{r get content, eval=FALSE}
+articles_merkel <- get_content("Merkel",
+                               limit = 100,
+                               begin_date = "20180101",
+                               end_date = "20180520")
+```
+
+Note that for the ease of exposition, I limited the number of collected results to 100 here using the `limit` argument. The maximum limit per call is 1000. Further, I restricted the search to articles that were published in a time period of about one year.
+
+The results object is of class list and provides information about the articles found as well as the number of hits for a given period.
+
+If the number of tweets exceed the limit you should use the `get_content_all`. The function uses `get_content` under the hood. Hence, the query works the same way. The `timeout` argument define how long the function should wait between the api calls. 
+
+```{r get content all, eval=FALSE}
+articles_merkel <- get_content_all("Merkel",
+                                   timeout = 1,
+                                   begin_date = "20150101",
+                                   end_date = "20180520")
+```
+
+Lastly, you can check your api limit by using `get_client`. The function returns all information about your account and your daily limits.
+
+```{r get client, eval=FALSE}
+get_client()
+```
+
