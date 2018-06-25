@@ -21,7 +21,9 @@ Get the article text for a single url or a vector of urls.
 \code{get_article_text} is the function, which fetches and parses an article. This function may break in the future due to layout changes on the ZEIT ONLINE website.
 }
 \examples{
-get_article_text(url = "http://www.zeit.de/kultur/film/2018-04/tatort-frankfurt-unter-kriegern-obduktionsbericht")
+url <- paste0("http://www.zeit.de/kultur/film/2018-04/",
+"tatort-frankfurt-unter-kriegern-obduktionsbericht")
+get_article_text(url = url)
 
 }
 \author{
