@@ -27,14 +27,26 @@ get_article_text <- function (url,
     stop("Please provide valid ZEIT ONLINE URL(s).", call. = FALSE)
   }
 
-  fetch_article <- function (url) {
+  fetch_article <- function (url, timeout) {
     # define empty article
     article <- NULL
 
     # try to download article
-    try (
-      article <- xml2::read_html(url)
-    )
+    response <- httr::GET(url)
+
+    # check if http error
+    if (httr::http_error(response)) {
+      stop(
+        sprintf(
+          "Article parse failed [%s]",
+          httr::status_code(response)
+        ),
+        call. = FALSE
+      )
+    }
+
+    # parse article
+    article <- xml2::read_html(httr::content(response, "text"))
 
     # set timeout to avoid blocking
     if(!is.null(timeout)) {
@@ -57,5 +69,5 @@ get_article_text <- function (url,
   }
 
   # apply function to all urls
-  sapply(url, fetch_article)
+  sapply(urls, try(fetch_article), timeout)
 }
