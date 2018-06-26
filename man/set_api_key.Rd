@@ -18,6 +18,12 @@ None.
 \description{
 Function to set you API Key to the R environment when starting using \code{rzeit} package. Attention: You should only execute this functions once.
 }
+\examples{
+# this is not an actual api key
+api_key <- "5t5yno5qqkufxis5q2vzx26vxq2hqej9"
+set_api_key(api_key)
+
+}
 \author{
 Jan Dix <\email{jan.dix@uni-konstanz.de}>
 }
