@@ -27,7 +27,7 @@ Currently, the package is only available on GitHub. Using the `devtools` package
 devtools::install_github("jandix/rzeit2")
 ```
 
-```{r loading rzeit, warning = FALSE, results = "hide", message = FALSE, eval = TRUE}
+```{r loading rzeit, warning = FALSE, results = "hide", message = FALSE, eval = FALSE}
 library(rzeit2)
 ```
 
@@ -41,7 +41,7 @@ set_api_key(api_key = "set_your_api_key_here")
 
 Next, we can start tapping the API. `get_content` represents the core function of the package. Again, because the api key is stored in the environment, we do not have to pass the key explicitly (but still  could do so using the `api` argument). As an example, we collect articles that include "Merkel" in the article body, headline or byline:
 
-```{r get content, eval=FALSE}
+```{r get content, warning = FALSE, message = FALSE, eval = FALSE}
 articles_merkel <- get_content("Merkel",
                                limit = 100,
                                begin_date = "20180101",
@@ -54,7 +54,7 @@ The results object is of class list and provides information about the articles 
 
 If the number of tweets exceed the limit you should use the `get_content_all`. The function uses `get_content` under the hood. Hence, the query works the same way. The `timeout` argument define how long the function should wait between the api calls. 
 
-```{r get content all, eval=FALSE}
+```{r get content all, warning = FALSE, message = FALSE, eval = FALSE}
 articles_merkel <- get_content_all("Merkel",
                                    timeout = 1,
                                    begin_date = "20150101",
@@ -63,7 +63,7 @@ articles_merkel <- get_content_all("Merkel",
 
 Lastly, you can check your api limit by using `get_client`. The function returns all information about your account and your daily limits.
 
-```{r get client, eval=FALSE}
+```{r get client, warning = FALSE, message = FALSE, eval = FALSE}
 get_client()
 ```
 
