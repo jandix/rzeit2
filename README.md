@@ -23,5 +23,6 @@ devtools::install_github("jandix/rzeit2")
 Jan Dix
 [jan.dix@uni-konstanz.de](mailto:jan.dix@uni-konstanz.de)
 
+## Acknowledgements
 
-Special thanks to [Simon Munzert](http://simonmunzert.github.io/), who helped me entering the world of R and GitHub. Additionally, I would like to thank Peter Meißner and Christian Graul who helped with the first version of this package. Lastly, I would like to thank Jana Blahak who wrote the documentation for the first package which is widely reused. 
+Special thanks to [Simon Munzert](http://simonmunzert.github.io/), who helped me entering the world of R and GitHub. Additionally, I would like to thank **Peter Meißner** and **Christian Graul** who helped with the first version of this package. Lastly, I would like to thank **Jana Blahak** who wrote the documentation for the first package which is widely reused. 
