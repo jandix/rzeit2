@@ -7,8 +7,10 @@
 #'@return a list of information about the client and API usage
 #'@author Jan Dix (\email{jan.dix@@uni-konstanz.de})
 #'
-#'#'@examples
+#'@examples
+#'\dontrun{
 #'get_client()
+#'}
 #'
 #'@export
 

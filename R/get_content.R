@@ -21,7 +21,9 @@
 #' @seealso \code{\link{get_content_all}}
 #'
 #' @examples
+#' \dontrun{
 #' get_content(query = "Merkel")
+#' }
 #'
 #' @export
 

@@ -28,7 +28,9 @@ Exposes a search in the ZEIT online archive on the content endpoint and returns 
 \code{get_content} is the function, which interacts directly with the ZEIT Online API. I only used the content endpoint for this package. There are further endpoints (e.g. /author, /product) not included into this package to further specify the search if needed. The whole list of possible endpoints can be accessed here \url{http://developer.zeit.de/docs/}.
 }
 \examples{
+\dontrun{
 get_content(query = "Merkel")
+ }
 
 }
 \references{

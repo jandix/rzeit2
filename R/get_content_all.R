@@ -19,7 +19,9 @@
 #' @seealso \code{\link{get_content}}
 #'
 #' @examples
+#' \dontrun{
 #' get_content(query = "Merkel")
+#'  }
 #'
 #' @export
 
