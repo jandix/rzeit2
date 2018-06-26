@@ -69,5 +69,5 @@ get_article_text <- function (url,
   }
 
   # apply function to all urls
-  sapply(urls, try(fetch_article), timeout)
+  sapply(url, try(fetch_article), timeout)
 }
