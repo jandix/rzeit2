@@ -7,9 +7,10 @@
 #'@return a list of information about the client and API usage
 #'@author Jan Dix (\email{jan.dix@@uni-konstanz.de})
 #'
-#'@export
+#'#'@examples
+#'get_client()
 #'
-#'@examples get_client()
+#'@export
 
 # catch client data
 get_client <- function(api_key = Sys.getenv("ZEIT_ONLINE_KEY")) {

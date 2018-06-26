@@ -15,9 +15,9 @@ a list of information about the client and API usage
 \description{
 \code{get_cleint} returns API access status and usage.
 }
-\examples{
-get_client()
-}
 \author{
 Jan Dix (\email{jan.dix@uni-konstanz.de})
+
+#'@examples
+get_client()
 }
