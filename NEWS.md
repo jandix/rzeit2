@@ -1,3 +1,3 @@
-# version 0.0.1 (2018-06-26)
+# version 0.1.0 (2018-06-26)
 
-- first puplication on Github
+- initial publication on Github
