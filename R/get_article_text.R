@@ -11,7 +11,7 @@
 #' @author Jan Dix <\email{jan.dix@@uni-konstanz.de}>
 #'
 #' @examples
-#' url <- paste0("http://www.zeit.de/kultur/film/2018-04/",
+#' url <- paste0("https://www.zeit.de/kultur/film/2018-04/",
 #' "tatort-frankfurt-unter-kriegern-obduktionsbericht")
 #' get_article_text(url = url)
 #'
