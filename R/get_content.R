@@ -5,7 +5,7 @@
 #' @param query character. Search query term.
 #' @param limit integer. The number of results given back. Please use \code{\link{get_content_all}} if the limit exceeds 1000 rows.
 #' @param offset integer. Offset for the list of matches.
-#' @param sort character. Sort search result by various fields. Fo example: \code{sort=release_date asc, uuid desc}.
+#' @param sort character. Sort search result by various fields. For example: \code{sort=release_date asc, uuid desc}.
 #' @param begin_date character. Begin date - Restricts responses to results with publication dates of the date specified or later. In the form YYYYMMDD.
 #' @param end_date character. End date - Restricts responses to results with publication dates of the date specified or earlier. In the form YYYYMMDD.
 #' @param api_key character. The personal api code. To request an API key see: \url{http://developer.zeit.de/quickstart/} This parameter is by default set to the R Environment.
