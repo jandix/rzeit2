@@ -3,15 +3,16 @@
 #'@description Function to set you API Key to the R environment when starting using \code{rzeit} package. Attention: You should only execute this functions once.
 #'
 #'@param api_key character. The personal api code. To request an API key see: \url{http://developer.zeit.de/quickstart/}
-#'@param path character. Path where the enviornment is stored. Default is the normalized path.
+#'@param path character. Path where the environment is stored. Default is the normalized path.
 #'
 #'@return None.
 #'
 #'@examples
+#'\dontrun{
 #'# this is not an actual api key
 #'api_key <- "5t5yno5qqkufxis5q2vzx26vxq2hqej9"
 #'set_api_key(api_key)
-#'
+#'}
 #'@author Jan Dix <\email{jan.dix@@uni-konstanz.de}>
 #'
 #'@export
