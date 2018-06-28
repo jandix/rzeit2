@@ -15,7 +15,7 @@ get_content(query, limit = 10, offset = 0, sort = "release_date asc",
 
 \item{offset}{integer. Offset for the list of matches.}
 
-\item{sort}{character. Sort search result by various fields. Fo example: \code{sort=release_date asc, uuid desc}.}
+\item{sort}{character. Sort search result by various fields. For example: \code{sort=release_date asc, uuid desc}.}
 
 \item{begin_date}{character. Begin date - Restricts responses to results with publication dates of the date specified or later. In the form YYYYMMDD.}
 
