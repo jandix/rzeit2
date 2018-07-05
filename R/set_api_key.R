@@ -11,14 +11,14 @@
 #'\dontrun{
 #'# this is not an actual api key
 #'api_key <- "5t5yno5qqkufxis5q2vzx26vxq2hqej9"
-#'set_api_key(api_key)
+#'set_api_key(api_key, paste(normalizePath("~/"), ".Renviron", sep = "/"))
 #'}
 #'@author Jan Dix <\email{jan.dix@@uni-konstanz.de}>
 #'
 #'@export
 
 set_api_key <- function(api_key,
-                        path = paste(normalizePath("~/"), ".Renviron", sep = "/")) {
+                        path = stop("Please specify a path.")) {
 
   # check if an environment file exists
   if (!file.exists(path)) file.create(path)
