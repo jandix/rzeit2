@@ -21,6 +21,7 @@
 #'@importFrom httr http_error
 #'@importFrom httr status_code
 #'@importFrom httr parse_url
+#'@importFrom httr add_headers
 #'@importFrom utils txtProgressBar
 #'@importFrom utils setTxtProgressBar
 #'

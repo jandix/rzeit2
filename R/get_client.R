@@ -18,20 +18,10 @@
 get_client <- function(api_key = Sys.getenv("ZEIT_ONLINE_KEY")) {
 
   # define base_url
-  base_url <- "http://api.zeit.de/client"
-
-  # define query
-  query <- list(
-    api_key = api_key
-  )
-
-  # build final url
-  url <- httr::parse_url(base_url)
-  url$query <- query
-  url <- httr::build_url(url)
+  url <- "http://api.zeit.de/client"
 
   # get data
-  response <- httr::GET(url)
+  response <- httr::GET(url, httr::add_headers("X-Authorization" = api_key))
 
   # check if successful
   if (httr::http_type(response) != "application/json") {

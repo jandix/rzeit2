@@ -59,7 +59,6 @@ get_content <- function (query,
 
   # define query
   query <- list(
-    api_key = api_key,
     q = query,
     sort = sort,
     limit = limit,
@@ -72,7 +71,7 @@ get_content <- function (query,
   url <- httr::build_url(url)
 
   # get data
-  response <- httr::GET(url)
+  response <- httr::GET(url, httr::add_headers("X-Authorization" = api_key))
 
   # check if successful
   if (httr::http_type(response) != "application/json") {
