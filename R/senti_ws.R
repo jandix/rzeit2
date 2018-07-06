@@ -2,8 +2,7 @@
 #'
 #' SentiWS is a publicly available German-language resource for sentiment analysis,
 #' opinion mining etc. It lists positive and negative polarity bearing words
-#' weighted within the interval of [-1; 1] plus their part of speech tag,
-#' and if applicable, their inflections.
+#' weighted within the interval of [-1; 1].
 #'
 #' @format A data frame with 3468 rows and 2 variables:
 #' \describe{
