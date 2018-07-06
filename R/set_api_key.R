@@ -11,7 +11,7 @@
 #'\dontrun{
 #'# this is not an actual api key
 #'api_key <- "5t5yno5qqkufxis5q2vzx26vxq2hqej9"
-#'set_api_key(api_key, paste(normalizePath("~/"), ".Renviron", sep = "/"))
+#'set_api_key(api_key, tempdir())
 #'}
 #'@author Jan Dix <\email{jan.dix@@uni-konstanz.de}>
 #'
