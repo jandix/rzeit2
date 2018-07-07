@@ -23,7 +23,7 @@ library(ggthemes)
 
 ## Load meta data
 
-We begin by downloading the meta data using the `get_content_all` function. We search for articles between 01st May and 31st May 2018. The dates are chosen randomly. We are looking for articles containing the keyword _Merkel_. 
+We begin by downloading the meta data using `get_content_all`. We search for articles between 01st May and 31st May 2018. The dates are chosen randomly. We are looking for articles containing the keyword _Merkel_. 
 
 ```{r loading meta data, eval = FALSE}
 # load meta data
@@ -47,7 +47,7 @@ robots$permissions
 
 The permissions table shows that we are allowed to scrape usual news articles. The _Disallow_ indicates the subdirectories you should not index and scrape.
 
-Second, we start downloading and parsing the articles from ZEIT ONLINE using the `get_article_text`. The function works on charcters and character vectors. Please use a decend timeout to be gently. Since, we found 120 articles this may take some time. Some articles are premium content, those are indicated by the string _"[PAYWALL] ZEIT PLUS CONTENT"_.
+Second, we start downloading and parsing the articles from ZEIT ONLINE using `get_article_text`. The function works on charcters and character vectors. Please use a decend timeout to be gently. Since, we found 120 articles this may take some time. Some articles are premium content, those are indicated by the string _"[PAYWALL] ZEIT PLUS CONTENT"_.
 
 ```{r scrape articles, eval = FALSE}
 # get article content
@@ -56,7 +56,7 @@ article_texts <- get_article_text(urls, timeout = 2)
 
 ## Calculate sentiment
 
-We use the _Sentiment Wortschatz_ dictionary to calculate
+We use the _Sentiment Wortschatz_, a sentiment dictionary for general German, to calculate the sentiment for each article. The dictionary contains 3,458 words and a respective positive or negative polarity. The dictionary is included in this package and can be loaded using `load`. We prepare a data frame including the url, date and scraped text of each article. Articles beyond the paywall are excluded, because we cannot access them using `get_article_text`. Afterwards, we calculate the score for each word and sum up all score for each article.
 
 ```{r, eval = FALSE}
 # prepare data frame
@@ -64,12 +64,11 @@ articles <- data.frame(url = urls,
                        text = article_texts,
                        date = as.Date(articles_merkel$content$release_date),
                        stringsAsFactors = F)
+
+# exclude premium content
 articles <- articles %>% 
   filter(!str_detect(text, "ZEIT PLUS CONTENT"))
-```
 
-
-```{r calculate sentiment, eval = FALSE}
 # lazy loading german sentiment dictionary
 data("senti_ws")
 
@@ -80,6 +79,8 @@ sentiment_example <- articles %>%
   group_by(url, date) %>%
   summarise(score = sum(score))
 ```
+
+Due to copyright issues I am not allowed to include the article texts in this package. Hence, I saved the corresponding data frame from above in `sentiment_example`. The data set can also be loaded using `load`. We are grouping the data by date and sum up all score for each day. Subsequently, we divide the score by the number of articles per day to obtain a relative score.
 
 ```{r load dataset, echo=FALSE}
 data("sentiment_example")
@@ -94,7 +95,12 @@ sentiment <- sentiment_example %>%
 # plot the sentiment by day
 ggplot(sentiment, aes(date, sentiment)) +
   geom_point(pch = 1, col = "#3a9b96") +
-  geom_line(col = "#3a9b96", alpha = .9) +
+  geom_line(col = "#3a9b96", alpha = .6) +
+  geom_hline(yintercept = mean(sentiment$sentiment), col = "#4e4e4e") +
+  annotate("text", x = as.Date("2018-05-30"), y = -.18, 
+           label = sprintf("mean = %s", round(mean(sentiment$sentiment), 2)), col = "#4e4e4e") +
   theme_fivethirtyeight() +
   theme(axis.title = element_text(), axis.title.x = element_blank()) + ylab('Articles Sentiment')
 ```
+
+The graph shows that the sentiment differs strongly over time. Although, the mean equals nearly 0. A short look at the headings of the articles tells us that the articles are not about Merkel herself, but rather include articles about general German politics. Hence, the sentiment cannot be interpreted in advantage or disadvantage of Merkel. Using sentiment scores like this carries two risks. First, the articles probably do not only include content on the object of interest. Consequently, we probably measure paragraphs which are not of interest. Second, the dictionary does not match the content which may lead to incorrect scores. In this case it would probably be useful to use a dictionary concentrated on German politics. Besides these thoughts, sentiment scores probably provide a useful insights of the mood towards the object of interest.
