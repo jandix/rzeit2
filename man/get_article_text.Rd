@@ -12,7 +12,8 @@ get_article_text(url, timeout = NULL)
 \item{timeout}{integer. Seconds to wait between queries.}
 }
 \value{
-A named character vector with the respective text.
+A named character vector with the respective text. If the content lies beyond the paywall
+the function returns "[PAYWALL] ZEIT PLUS CONTENT".
 }
 \description{
 Get the article text for a single url or a vector of urls.

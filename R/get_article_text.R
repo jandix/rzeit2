@@ -6,7 +6,8 @@
 #' @param timeout integer. Seconds to wait between queries.
 #' @details \code{get_article_text} is the function, which fetches and parses an article. This function may break in the future due to layout changes on the ZEIT ONLINE website.
 #'
-#' @return A named character vector with the respective text.
+#' @return A named character vector with the respective text. If the content lies beyond the paywall
+#' the function returns "[PAYWALL] ZEIT PLUS CONTENT".
 #'
 #' @author Jan Dix <\email{jan.dix@@uni-konstanz.de}>
 #'
@@ -56,10 +57,18 @@ get_article_text <- function (url,
     # if found article then extract text
     if(!is.null(article)) {
 
-      # extract article text
-      nodes <- rvest::html_nodes(article, ".article-page p")
-      html <- rvest::html_text(nodes)
-      text <- paste(html, collapse = " ")
+      # check if zeit plus content
+      nodes <- rvest::html_nodes(article, ".gate")
+
+      if (length(nodes) <= 0) {
+        # extract article text
+        nodes <- rvest::html_nodes(article, ".article-page p")
+        html <- rvest::html_text(nodes)
+        text <- paste(html, collapse = " ")
+      } else {
+        # placeholder for premium content
+        text <- "[PAYWALL] ZEIT PLUS CONTENT"
+      }
 
       # define return object
       return(text)
