@@ -54,7 +54,7 @@ get_content <- function (query,
     end <- anytime::iso8601(end_date)
     end <- paste0(end_date, "T23:59:59.999Z")
 
-    query = paste0("\"", query ,"\" AND release_date:[", begin ," TO ", end, "]")
+    query = paste0(query ," AND release_date:[", begin ," TO ", end, "]")
   }
 
   # define query
