@@ -1,0 +1,100 @@
+---
+title: "Sentiment with rzeit2"
+author: "Jan Dix"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to rzeit2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Load required packages
+
+```{r loading packages, warning = FALSE, message = FALSE}
+library(rzeit2)
+library(robotstxt)
+library(stringr)
+library(dplyr)
+library(tidytext)
+library(ggplot2)
+library(ggthemes)
+```
+
+## Load meta data
+
+We begin by downloading the meta data using the `get_content_all` function. We search for articles between 01st May and 31st May 2018. The dates are chosen randomly. We are looking for articles containing the keyword _Merkel_. 
+
+```{r loading meta data, eval = FALSE}
+# load meta data
+articles_merkel <- get_content_all("Merkel",
+                                   begin_date = "20180501",
+                                   end_date = "20180531")
+
+# extract urls
+urls <- articles_merkel$content$href
+```
+
+
+## Scrape websites
+
+First, let's check whether we are allowed to scrape ZEIT ONLINE. Every website usually contains a so-called _robots.txt_ file which tells you, which automated processes are allowed. `robotstxt` is a very useful package which provides you all information right away for a given url.
+
+```{r robotstxt}
+robots <- robotstxt("https://zeit.de")
+robots$permissions
+```
+
+The permissions table shows that we are allowed to scrape usual news articles. The _Disallow_ indicates the subdirectories you should not index and scrape.
+
+Second, we start downloading and parsing the articles from ZEIT ONLINE using the `get_article_text`. The function works on charcters and character vectors. Please use a decend timeout to be gently. Since, we found 120 articles this may take some time. Some articles are premium content, those are indicated by the string _"[PAYWALL] ZEIT PLUS CONTENT"_.
+
+```{r scrape articles, eval = FALSE}
+# get article content
+article_texts <- get_article_text(urls, timeout = 2)
+```
+
+## Calculate sentiment
+
+We use the _Sentiment Wortschatz_ dictionary to calculate
+
+```{r, eval = FALSE}
+# prepare data frame
+articles <- data.frame(url = urls,
+                       text = article_texts,
+                       date = as.Date(articles_merkel$content$release_date),
+                       stringsAsFactors = F)
+articles <- articles %>% 
+  filter(!str_detect(text, "ZEIT PLUS CONTENT"))
+```
+
+
+```{r calculate sentiment, eval = FALSE}
+# lazy loading german sentiment dictionary
+data("senti_ws")
+
+# calculate the sentiment for each day
+sentiment_example <- articles %>%
+  unnest_tokens(word, text) %>% 
+  inner_join(senti_ws) %>% 
+  group_by(url, date) %>%
+  summarise(score = sum(score))
+```
+
+```{r load dataset, echo=FALSE}
+data("sentiment_example")
+```
+
+```{r plot sentiment}
+# calculate sentiment by day
+sentiment <- sentiment_example %>% 
+  group_by(date) %>% 
+  summarise(sentiment = sum(score) / n())
+
+# plot the sentiment by day
+ggplot(sentiment, aes(date, sentiment)) +
+  geom_point(pch = 1, col = "#3a9b96") +
+  geom_line(col = "#3a9b96", alpha = .9) +
+  theme_fivethirtyeight() +
+  theme(axis.title = element_text(), axis.title.x = element_blank()) + ylab('Articles Sentiment')
+```
