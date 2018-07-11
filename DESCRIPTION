@@ -4,7 +4,7 @@ Title: Client for the ZEIT ONLINE Content API
 Version: 0.1.0
 Authors@R: person("Jan", "Dix", email = "jan.dix@uni-konstanz.de",
                   role = c("aut", "cre"))
-Description: Interface to gather newspaper articles from 'DIE ZEIT' and 'ZEIT ONLINE', based on a multilevel query. A personal API key is required for usage.
+Description: Interface to gather newspaper articles from 'DIE ZEIT' and 'ZEIT ONLINE', based on a multilevel query <http://developer.zeit.de/>. A personal API key is required for usage.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 3.2.0)

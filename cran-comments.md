@@ -1,6 +1,11 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
+* Added the ZEIT url to the description as suggested by the cran maintainers.
+
+## Resubmission
+This is a resubmission. In this version I have:
+
 * Changed the default value for `path` in `set_api_key` as suggested by the cran maintainers.
 * Moved the api_key authorization from url query to headers in `get_client` and `get_content`
 * Updated the `get_article_text` to highlight paywall articles.
@@ -13,7 +18,7 @@ This is a resubmission. In this version I have:
 * Moved `set_api_key` into a `dontrun` block to avoid exectution during the checks as suggested by the maintainers.
 
 ## Test environments
-* local ubuntu 18.04, R 3.5.0
+* local ubuntu 18.04, R 3.5.1
 * ubuntu 14.04 (on travis-ci), R 3.5.0
 * win-builder (devel and release)
 
