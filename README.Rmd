@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# rzeit2
+# rzeit2 <img src="rzeit2.png" width="160px" align="right" />
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) 
 [![Build Status](https://travis-ci.org/jandix/rzeit2.svg?branch=master)](https://travis-ci.org/jandix/rzeit2)
@@ -31,8 +31,64 @@ The package is under development and will be extended with additional features i
 
 ## Installation
 
+### Stable Version
+
 ```{r, eval=FALSE}
+# install package from CRAN
+install.packages("rzeit2")
+
+# load package
+library(rzeit2)
+```
+
+
+### Current Development Version
+
+```{r, eval=FALSE}
+# install devtools package if it's not already
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+
+# install package from GitHub
 devtools::install_github("jandix/rzeit2")
+
+# load package
+library(rzeit2)
+```
+
+## Authentication
+
+get api key @
+
+```{r, eval=FALSE}
+# save the api key in the .Renviron file
+set_api_key("xxx", "~/.Renviron")
+```
+
+## Download meta data
+
+```{r, eval=FALSE}
+stop("Coming soon.")
+```
+
+
+## Download content
+
+```{r, eval=FALSE}
+stop("Coming soon.")
+```
+
+## Download comments
+
+```{r, eval=FALSE}
+stop("Coming soon.")
+```
+
+## Download images
+
+```{r, eval=FALSE}
+stop("Coming soon.")
 ```
 
 ## Authors

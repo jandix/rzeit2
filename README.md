@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-rzeit2
-======
+rzeit2 <img src="rzeit2.png" width="160px" align="right" />
+===========================================================
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![Build Status](https://travis-ci.org/jandix/rzeit2.svg?branch=master)](https://travis-ci.org/jandix/rzeit2) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rzeit2)](https://cran.r-project.org/package=rzeit2) [![CRAN\_Download\_Badge](https://cranlogs.r-pkg.org/badges/rzeit2)](https://cran.r-project.org/package=rzeit2)
 
@@ -20,8 +20,67 @@ The package is under development and will be extended with additional features i
 Installation
 ------------
 
+### Stable Version
+
 ``` r
+# install package from CRAN
+install.packages("rzeit2")
+
+# load package
+library(rzeit2)
+```
+
+### Current Development Version
+
+``` r
+# install devtools package if it's not already
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+
+# install package from GitHub
 devtools::install_github("jandix/rzeit2")
+
+# load package
+library(rzeit2)
+```
+
+Authentication
+--------------
+
+get api key @
+
+``` r
+# save the api key in the .Renviron file
+set_api_key("xxx", "~/.Renviron")
+```
+
+Download meta data
+------------------
+
+``` r
+stop("Coming soon.")
+```
+
+Download content
+----------------
+
+``` r
+stop("Coming soon.")
+```
+
+Download comments
+-----------------
+
+``` r
+stop("Coming soon.")
+```
+
+Download images
+---------------
+
+``` r
+stop("Coming soon.")
 ```
 
 Authors
