@@ -16,6 +16,7 @@ Imports:
     ggplot2,
     httr,
     jsonlite,
+    openssl,
     rvest,
     stringr,
     xml2
