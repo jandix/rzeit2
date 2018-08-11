@@ -48,8 +48,6 @@ library(rzeit2)
 Authentication
 --------------
 
-get api key @
-
 ``` r
 # save the api key in the .Renviron file
 set_api_key("xxx", "~/.Renviron")
@@ -59,28 +57,28 @@ Download meta data
 ------------------
 
 ``` r
-stop("Coming soon.")
+tatort_articles <- get_content("Tatort")
 ```
 
-Download content
-----------------
+Download text
+-------------
 
 ``` r
-stop("Coming soon.")
+tatort_content <- get_article_text(tatort_articles$href, timeout = 1)
 ```
 
 Download comments
 -----------------
 
 ``` r
-stop("Coming soon.")
+tatort_comments <- get_article_comments(tatort_articles$href[1], timeout = 1)
 ```
 
 Download images
 ---------------
 
 ``` r
-stop("Coming soon.")
+tatort_images <- get_article_images(tatort_articles$href, timeout = 1, download = "~/Documents/tatort-img/")
 ```
 
 Authors
