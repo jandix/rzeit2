@@ -72,7 +72,7 @@ get_article_comments <- function (url,
   # define helper function to extract main comments and their replies
   get_replies <- function (comment, page) {
     # paste url
-    comment_url <- paste(url, "/comment-replies")
+    comment_url <- paste0(url, "/comment-replies")
     comment_url <- httr::parse_url(comment_url)
     query <- list(
       cid = comment$cid,
@@ -82,7 +82,7 @@ get_article_comments <- function (url,
     comment_url$query <- query
     comment_url <- httr::build_url(comment_url)
     # fetch comment replies
-    response <- httr::GET(url)
+    response <- httr::GET(comment_url)
     # parse comment replies
     comment_replies <- httr::content(response, as = "text")
     comment_replies <- xml2::read_html(comment_replies)
@@ -99,7 +99,8 @@ get_article_comments <- function (url,
         replies = comment_replies
       ),
       class = "zeit_api_comment"
-    )}
+    )
+  }
 
   # define helper function to fetch comments on each page
   get_comments_per_page <- function (article, page) {
@@ -108,10 +109,11 @@ get_article_comments <- function (url,
     parent_comments <- extract_comment_details(comments)
     # get replies
     complete_comments <- lapply(parent_comments, get_replies, page)
+    complete_comments
   }
 
   # get article document
-  article <- get_article(url)
+  article <- get_article(url = url, multiple_required = F)
 
   # extract number of comment pages
   pages <- rvest::html_nodes(article$article, ".comment-section__headline small")
@@ -119,14 +121,14 @@ get_article_comments <- function (url,
   pages <- stringr::str_extract(pages, "(\\d){1,3}$")
   pages <- as.integer(pages)
 
+  # initialize progressbar
+  pb <- txtProgressBar(min = 0, max = pages, style = 3)
+
   # fetch comments on the first page
   comments <- get_comments_per_page(article, 1)
+  setTxtProgressBar(pb, 1)
 
-  # loop trough all comment pages
-  # initialize progressbar
-  pb <- txtProgressBar(min = 0, max = length(url), style = 3)
-
-  # apply function to all urls
+  # apply function to all comment pages
   for (page in 2:pages) {
     # parse comment page url
     page_url <- httr::parse_url(url)
@@ -136,7 +138,7 @@ get_article_comments <- function (url,
     page_url$query <- query
     page_url <- httr::build_url(page_url)
     # get article
-    article <- get_article(page_url)
+    article <- get_article(page_url, multiple_required = F)
     # parse comments
     comments <- c(comments, get_comments_per_page(article, page))
     # timeout

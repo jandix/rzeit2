@@ -17,7 +17,7 @@
 #' @keywords internal
 #' @noRd
 
-get_article <- function (url) {
+get_article <- function (url, multiple_required = TRUE) {
 
   # define empty article
   article <- NULL
@@ -47,11 +47,11 @@ get_article <- function (url) {
     ))
   }
 
-  if(has_multiple_pages(article)) {
+  if(has_multiple_pages(article) & multiple_required) {
     # adjust original url
     url <- paste0(url, "/komplettansicht")
     # refetch article url
-    return(rzeit2::get_article(url))
+    return(get_article(url))
   }
 
   list(
