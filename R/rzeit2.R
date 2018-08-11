@@ -26,6 +26,7 @@
 #' @importFrom utils setTxtProgressBar
 #' @importFrom openssl md5
 #' @importFrom jsonlite fromJSON
+#' @importFrom utils download.file
 #'
 #' @aliases rzeit2 rzeit2-package
 NULL
