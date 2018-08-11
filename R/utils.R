@@ -15,7 +15,6 @@
 #' @importFrom httr content
 #' @importFrom xml2 read_html
 #' @keywords internal
-#' @export
 #' @noRd
 
 get_article <- function (url) {

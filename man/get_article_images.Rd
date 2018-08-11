@@ -23,9 +23,11 @@ Get the article images for a single url or a vector of urls.
 \code{get_article_images} is the function, which fetches and parses meta information for each image of an article and downloads the images. This function may break in the future due to layout changes on the ZEIT ONLINE website.
 }
 \examples{
+\dontrun{
 url <- paste0("https://www.zeit.de/kultur/film/2018-04/",
 "tatort-frankfurt-unter-kriegern-obduktionsbericht")
 get_article_images(url = url, timeout = 0)
+}
 
 }
 \author{

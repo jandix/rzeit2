@@ -12,9 +12,11 @@
 #' @author Jan Dix <\email{jan.dix@@uni-konstanz.de}>
 #'
 #' @examples
+#' \dontrun{
 #' url <- paste0("https://www.zeit.de/kultur/film/2018-04/",
 #' "tatort-frankfurt-unter-kriegern-obduktionsbericht")
 #' get_article_text(url = url)
+#' }
 #'
 #' @export
 
@@ -32,7 +34,7 @@ get_article_text <- function (url,
   get_text <- function (url, timeout) {
 
     # get article document
-    article <- rzeit2::get_article(url)
+    article <- get_article(url)
 
     if (!article$zeit_plus) {
       # extract article text
@@ -46,6 +48,18 @@ get_article_text <- function (url,
       return("[ZEIT PLUS CONTENT] You need a ZEIT PLUS account to access this content.")
     }
   }
+
+  # initialize progressbar
+  pb <- txtProgressBar(min = 0, max = length(url), style = 3)
+
   # apply function to all urls
-  sapply(url, try(fetch_article), timeout)
+  for (i in 1:length(url)) {
+    if (!exists("texts")) {
+      texts <- get_text(url[i], timeout = timeout)
+    } else {
+      texts <- c(texts, get_text(url[i], timeout = timeout))
+    }
+    setTxtProgressBar(pb, i)
+  }
+  texts
 }

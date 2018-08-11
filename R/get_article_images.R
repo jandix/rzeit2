@@ -12,9 +12,11 @@
 #' @author Jan Dix <\email{jan.dix@@uni-konstanz.de}>
 #'
 #' @examples
+#' \dontrun{
 #' url <- paste0("https://www.zeit.de/kultur/film/2018-04/",
 #' "tatort-frankfurt-unter-kriegern-obduktionsbericht")
 #' get_article_images(url = url, timeout = 0)
+#' }
 #'
 #' @export
 
@@ -35,7 +37,7 @@ get_article_images <- function (url,
                           download) {
 
     # get article document
-    article <- rzeit2::get_article(url)
+    article <- get_article(url)
 
     # get all articles images
     img <- rvest::html_nodes(article$article, "img.article__media-item")
