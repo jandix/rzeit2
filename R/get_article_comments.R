@@ -46,6 +46,18 @@ get_article_comments <- function (url,
       comment_author <- rvest::html_text(comment_author)
       comment_author <- stringr::str_replace_all(comment_author, "\\n", "")
       comment_author <- stringr::str_trim(comment_author)
+      # parse stars
+      comment_stars <- rvest::html_node(comment, ".js-comment-recommendations")
+      if (length(comment_stars) > 0) {
+        comment_stars <- rvest::html_text(comment_stars)
+        comment_stars <- stringr::str_trim(comment_stars)
+        comment_stars <- as.integer(comment_stars)
+      } else {
+        comment_stars <- 0
+      }
+      # parse date
+
+
       # parse ids
       comment_parent_id <- rvest::html_attr(comment, "data-ct-row")
       comment_parent_id <- as.integer(comment_parent_id)
@@ -62,6 +74,7 @@ get_article_comments <- function (url,
           child_id = comment_child_id,
           author = comment_author,
           text = comment_text,
+          stars = comment_stars,
           replies = NA
         ),
         class = "zeit_api_comment"
@@ -84,7 +97,8 @@ get_article_comments <- function (url,
     # fetch comment replies
     response <- httr::GET(comment_url)
     # parse comment replies
-    comment_replies <- httr::content(response, as = "text")
+    comment_replies <- httr::content(response, "text")
+    comment_replies <- paste("<html>", comment_replies, "</html>")
     comment_replies <- xml2::read_html(comment_replies)
     comment_replies <- rvest::html_nodes(comment_replies, "article.comment")
     comment_replies <- extract_comment_details(comment_replies)
@@ -96,6 +110,7 @@ get_article_comments <- function (url,
         child_id = comment$child_id,
         author = comment$author,
         text = comment$text,
+        stars = comment$stars,
         replies = comment_replies
       ),
       class = "zeit_api_comment"
