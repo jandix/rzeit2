@@ -57,28 +57,30 @@ Download meta data
 ------------------
 
 ``` r
-tatort_articles <- get_content("Tatort")
+tatort_articles <- get_content("Tatort",
+                               begin_date = "20180101",
+                               end_date = "20180131")
 ```
 
 Download text
 -------------
 
 ``` r
-tatort_content <- get_article_text(tatort_articles$href, timeout = 1)
+tatort_content <- get_article_text(tatort_articles$content$href, timeout = 1)
 ```
 
 Download comments
 -----------------
 
 ``` r
-tatort_comments <- get_article_comments(tatort_articles$href[1], timeout = 1)
+tatort_comments <- get_article_comments(tatort_articles$content$href[1], timeout = 1)
 ```
 
 Download images
 ---------------
 
 ``` r
-tatort_images <- get_article_images(tatort_articles$href, timeout = 1, download = "~/Documents/tatort-img/")
+tatort_images <- get_article_images(tatort_articles$content$href, timeout = 1, download = "~/Documents/tatort-img/")
 ```
 
 Authors

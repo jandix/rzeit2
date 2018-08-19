@@ -67,7 +67,9 @@ set_api_key("xxx", "~/.Renviron")
 ## Download meta data
 
 ```{r, eval=FALSE}
-tatort_articles <- get_content("Tatort")
+tatort_articles <- get_content("Tatort",
+                               begin_date = "20180101",
+                               end_date = "20180131")
 ```
 
 
