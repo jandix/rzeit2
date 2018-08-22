@@ -4,6 +4,9 @@
 #'
 #' @param url character. A single character string or character vector.
 #' @param timeout integer. Seconds to wait between queries.
+#' @param simplify logical. If true the function returns a data frame else it returns a nested list.
+#' @param id character. You can provide your own id for each article. If is null the function uses the md5
+#' hash of the url to create one.
 #' @details \code{get_article_comments} is the function, which fetches and parses article comments. This function may break in the future due to layout changes on the ZEIT ONLINE website.
 #'
 #' @section Warning:
@@ -25,6 +28,8 @@
 #' @export
 
 get_article_comments <- function (url,
+                                  id = NULL,
+                                  simplify = FALSE,
                                   timeout = NULL) {
 
   # test if valid zeit online url
@@ -66,6 +71,8 @@ get_article_comments <- function (url,
       # parse cid
       comment_cid <- rvest::html_attr(comment, "id")
       comment_cid <- stringr::str_extract(comment_cid, "\\d+")
+      comment_cid <- as.integer(comment_cid)
+
       # return comment object
       structure(
         list(
@@ -83,7 +90,7 @@ get_article_comments <- function (url,
   }
 
   # define helper function to extract main comments and their replies
-  get_replies <- function (comment, page) {
+  get_replies <- function (comment, page, article) {
     # paste url
     comment_url <- paste0(url, "/comment-replies")
     comment_url <- httr::parse_url(comment_url)
@@ -102,6 +109,14 @@ get_article_comments <- function (url,
     comment_replies <- xml2::read_html(comment_replies)
     comment_replies <- rvest::html_nodes(comment_replies, "article.comment")
     comment_replies <- extract_comment_details(comment_replies)
+    # get first comment
+    query <- paste0("article.comment[data-ct-column=\"1\"][data-ct-row=\"", comment$parent_id ,"\"]")
+    first_comment <- rvest::html_nodes(article$article, query)
+    if (length(first_comment) > 0) {
+      first_comment <- extract_comment_details(first_comment)
+      # join replies
+      comment_replies <- c(first_comment, comment_replies)
+    }
     # return comment object
     structure(
       list(
@@ -123,7 +138,7 @@ get_article_comments <- function (url,
     comments <- rvest::html_nodes(article$article, "article.comment[data-ct-column=\"0\"]")
     parent_comments <- extract_comment_details(comments)
     # get replies
-    complete_comments <- lapply(parent_comments, get_replies, page)
+    complete_comments <- lapply(parent_comments, get_replies, page, article)
     complete_comments
   }
 
@@ -163,6 +178,55 @@ get_article_comments <- function (url,
     # update progress bar
     setTxtProgressBar(pb, page)
   }
-  comments
 
+  # return data frame
+  if (simplify) {
+
+    # create id
+    if (is.null(id)) {
+      id <- openssl::md5(url)
+      id <- paste0("", id)
+    }
+
+    # create empty data frame
+    comments_df <- data.frame(
+      article_url = as.character(),
+      article_id = as.character(),
+      cid = as.integer(),
+      parent_id = as.integer(),
+      child_id = as.integer(),
+      author = as.character(),
+      text = as.character(),
+      stars = as.integer(),
+      stringsAsFactors = F
+    )
+
+    # helper function to add rows to the data frame
+    add_row <- function (comment, df, url, id) {
+      rbind(df, data.frame(
+        article_url = url,
+        article_id = id,
+        cid = comment$cid,
+        parent_id = comment$parent_id,
+        child_id = comment$child_id,
+        author = comment$author,
+        text = comment$text,
+        stars = comment$stars,
+        stringsAsFactors = F
+      ))
+    }
+
+    # add all comments to the data frame
+    for (comment in comments) {
+      comments_df <- add_row(comment, comments_df, url, id)
+      for (subcomment in comment$replies) {
+        comments_df <- add_row(subcomment, comments_df, url, id)
+      }
+    }
+
+    return(comments_df)
+  }
+
+  # return nested list
+  comments
 }

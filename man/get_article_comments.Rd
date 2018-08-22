@@ -4,10 +4,15 @@
 \alias{get_article_comments}
 \title{Get article comments}
 \usage{
-get_article_comments(url, timeout = NULL)
+get_article_comments(url, id = NULL, simplify = FALSE, timeout = NULL)
 }
 \arguments{
 \item{url}{character. A single character string or character vector.}
+
+\item{id}{character. You can provide your own id for each article. If is null the function uses the md5
+hash of the url to create one.}
+
+\item{simplify}{logical. If true the function returns a data frame else it returns a nested list.}
 
 \item{timeout}{integer. Seconds to wait between queries.}
 }
