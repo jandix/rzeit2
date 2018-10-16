@@ -9,62 +9,63 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This is an introductory vignette to the rzeit package. The package connects to the Content API and gives access to articles and corresponding metadata from the DIE ZEIT archive dating back to 1946 and from ZEIT Online. DIE ZEIT is the most widely read German weekly newspaper. The API can be used for free for non-commercial use cases. For the terms of use see [http://developer.zeit.de/licence](http://developer.zeit.de/licence) (German only at the moment).
+### Authentication
 
-In short the package allows you to:
+You need an API key to access the content endpoint. You can apply for a key at [http://developer.zeit.de/quickstart/](http://developer.zeit.de/quickstart/). The function below appends the key automatically to your R environment file. Hence, every time you start R the key is loaded. `get_content` and `get_content_all` access your key automatically by executing `Sys.getenv("ZEIT_ONLINE_KEY")`. Replace `api_key` with the key you receive from ZEIT and `path` with the location of your R environment.
 
-- conduct an unfiltered search for articles,
-- use a variety of parameters to refine query fields, e.g. to specify content and time, and
-- easily inspect meta as well as article data.
-
-The package is made publicly available at [GitHub](https://github.com/tollpatsch/rzeit). In this vignette I demonstrate basic features of the package. In a second vignette, I will dig deeper into the matter and show how the package can be used to download articles and calculate the sentiment for the respective articles.
-
-## Setup
-
-Currently, the package is only available on GitHub. Using the `devtools` package, you can easily install it:
-
-```{r install github, warning = FALSE, results = "hide", message = FALSE, eval = FALSE}
-devtools::install_github("jandix/rzeit2")
+```{r, eval=FALSE}
+# save the api key in the .Renviron file
+set_api_key(api_key = "xxx", 
+            path = "~/.Renviron")
 ```
 
-```{r loading rzeit, warning = FALSE, results = "hide", message = FALSE, eval = FALSE}
-library(rzeit2)
-```
+### Download meta data
 
-To be able to work with the API, we have to fetch an API key first. There is no sophisticated authentication process involved here--just go to the [developer page](http://developer.zeit.de/quickstart/) and sign up by providing your name and a valid email address.
+**Important:** This function requires an API key. See [Authentication](#authentication).
 
-With `set_api_key()`, I provide a comfortable function that stores the key in the `R` environment. You only have to do this once; the next time `R` is launched this key is automatically available and fetched by the package's functions:
+You can query the whole ZEIT and ZEIT ONLINE archive using the content endpoint. Define your query using the `query` argument. The API supports query syntax such as `+` and `AND/OR`. You find more information at the [ZEIT API documentation](http://developer.zeit.de/docs/). As stated above, `get_content` and `get_content_all` access your key automatically by executing `Sys.getenv("ZEIT_ONLINE_KEY")`, but you can provide a key by your own using the `api_key` argument.
 
-```{r set key, warning = FALSE, message = FALSE, eval = FALSE}
-set_api_key(api_key = "set_your_api_key_here",
-            path = tempdir())
-```
+**Why are there two functions?**
 
-Next, we can start tapping the API. `get_content` represents the core function of the package. Again, because the api key is stored in the environment, we do not have to pass the key explicitly (but still  could do so using the `api` argument). As an example, we collect articles that include "Merkel" in the article body, headline or byline:
+rzeit2 provides two functions to query the content endpoint: `get_content` and `get_content_all`. `get_content` supports only 1000 rows per call because of the API specifications. You can use `get_content_all` to derive all articles matching your query. Internally, `get_content_all` executes `get_content` but fills all the arguments automatically. Please set a timeout to be polite.
 
-```{r get content, warning = FALSE, message = FALSE, eval = FALSE}
-articles_merkel <- get_content("Merkel",
-                               limit = 100,
+```{r, eval=FALSE}
+# fetch articles up to 1000 rows
+tatort_articles <- get_content(query = "Tatort",
                                begin_date = "20180101",
-                               end_date = "20180520")
+                               end_date = "20180131")
+
+# fetch ALL articles
+tatort_articles <- get_content(query = "Tatort",
+                               timeout = 2)
 ```
 
-Note that for the ease of exposition, I limited the number of collected results to 100 here using the `limit` argument. The maximum limit per call is 1000. Further, I restricted the search to articles that were published in a time period of about one year.
+### Download text (vectorized)
 
-The results object is of class list and provides information about the articles found as well as the number of hits for a given period.
+`get_article_text` allows you to download the article text for a given url. The function is vectorized. Hence, you can define multiple urls. The function automatically scrapes all pages if the article has multiple pages. Please set a timeout to be polite.
 
-If the number of tweets exceed the limit you should use the `get_content_all`. The function uses `get_content` under the hood. Hence, the query works the same way. The `timeout` argument define how long the function should wait between the api calls. 
-
-```{r get content all, warning = FALSE, message = FALSE, eval = FALSE}
-articles_merkel <- get_content_all("Merkel",
-                                   timeout = 1,
-                                   begin_date = "20150101",
-                                   end_date = "20180520")
+```{r, eval=FALSE}
+tatort_content <- get_article_text(url = tatort_articles$content$href, 
+                                   timeout = 1)
 ```
 
-Lastly, you can check your api limit by using `get_client`. The function returns all information about your account and your daily limits.
+### Download comments (not vectorized)
 
-```{r get client, warning = FALSE, message = FALSE, eval = FALSE}
-get_client()
+`get_article_comments` allows you to download the article comments for a given url. The function is not vectorized. This function may take quite long due to the ZEIT ONLINE website structure. Since ZEIT does not provide an API for comments this function downloads all comments as your browser would do. Please set a timeout to be polite.
+
+```{r, eval=FALSE}
+tatort_comments <- get_article_comments(url = tatort_articles$content$href[1], 
+                                        timeout = 1)
 ```
 
+### Download images (vectorized)
+
+`get_article_images` allows you to download the article images for a given url. The function is vectorized. Hence, you can define multiple urls. The function automatically scrapes all pages if the article has multiple pages. You can directly download the images if you define a path in `download`. Please ensure that the folder you define exists. The file name is derived as md5 hash of the image url. Hence, it should be un Please set a timeout to be polite.
+
+Please set a timeout to be polite.
+
+```{r, eval=FALSE}
+tatort_images <- get_article_images(url = tatort_articles$content$href, 
+                                    timeout = 1, 
+                                    download = "~/Documents/tatort-img/")
+```

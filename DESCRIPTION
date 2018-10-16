@@ -1,7 +1,7 @@
 Package: rzeit2
 Type: Package
 Title: Client for the ZEIT ONLINE Content API
-Version: 0.1.0.9000
+Version: 0.2.0
 Authors@R: person("Jan", "Dix", email = "jan.dix@uni-konstanz.de",
                   role = c("aut", "cre"))
 Description: Interface to gather newspaper articles from 'DIE ZEIT' and 'ZEIT ONLINE', based on a multilevel query <http://developer.zeit.de/>. A personal API key is required for usage.
