@@ -3,6 +3,7 @@
 ^\.travis\.yml$
 ^cran-comments\.md$
 ^README\.Rmd$
+^README\.md$
 ^README-.*\.png$
 ^icon.R$
 ^rzeit2.png$
