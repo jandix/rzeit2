@@ -13,7 +13,6 @@ LazyData: true
 RoxygenNote: 6.0.1
 Imports:
     anytime,
-    ggplot2,
     httr,
     jsonlite,
     openssl,
@@ -22,6 +21,7 @@ Imports:
     xml2
 Suggests:
     dplyr,
+    ggplot2,
     ggthemes,
     knitr,
     rmarkdown,
