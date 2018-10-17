@@ -1,6 +1,12 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
+* excluded readme from build process
+* moved ggplot2 from imports to suggested
+
+## Resubmission
+This is a resubmission. In this version I have:
+
 * defined new helper functions
 * declared a new function to scrape images from articles (get_article_images)
 * declared a new function to scrape comments from articles (get_article_comments)
