@@ -4,7 +4,8 @@
 \alias{get_article_comments}
 \title{Get article comments}
 \usage{
-get_article_comments(url, id = NULL, simplify = FALSE, timeout = NULL)
+get_article_comments(url, id = NULL, simplify = FALSE,
+  timeout = NULL)
 }
 \arguments{
 \item{url}{character. A single character string or character vector.}

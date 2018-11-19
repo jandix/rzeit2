@@ -4,7 +4,6 @@
 \name{rzeit2}
 \alias{rzeit2}
 \alias{rzeit2-package}
-\alias{rzeit2-package}
 \title{Client for the ZEIT ONLINE Content API}
 \description{
 Interface to gather newspaper articles from DIE ZEIT and ZEIT ONLINE,

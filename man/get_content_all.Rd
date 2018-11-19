@@ -4,8 +4,8 @@
 \alias{get_content_all}
 \title{Content endpoint (all)}
 \usage{
-get_content_all(query, timeout = 2, begin_date = NULL, end_date = NULL,
-  api_key = Sys.getenv("ZEIT_ONLINE_KEY"))
+get_content_all(query, timeout = 2, begin_date = NULL,
+  end_date = NULL, api_key = Sys.getenv("ZEIT_ONLINE_KEY"))
 }
 \arguments{
 \item{query}{character. Search query term.}
