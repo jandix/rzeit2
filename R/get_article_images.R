@@ -41,6 +41,17 @@ get_article_images <- function (url,
 
     # get all articles images
     img <- rvest::html_nodes(article$article, "img.article__media-item")
+    if (length(img) <= 0) return(data.frame(
+      article_url = url,
+      image_url = NA,
+      image_alt = NA,
+      image_caption = NA,
+      image_copyright = NA,
+      image_path = NA,
+      zeit_plus = article$zeit_plus,
+      stringsAsFactors = F
+    ))
+
     # parse article image text
     img_alt <- rvest::html_attr(img, "alt")
     if (length(img_alt) <= 0) img_alt <- NA
@@ -59,8 +70,7 @@ get_article_images <- function (url,
     if (length(caption_copyright) <= 0) caption_copyright <- NA
 
     # hash source url
-    if (is.na(img_src)) md5 <- NA
-    else md5 <- openssl::md5(img_src)
+    md5 <- openssl::md5(img_src)
 
     if (length(img) > 0) {
       # paste images data frame
