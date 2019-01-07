@@ -1,6 +1,12 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
+* fixed duplicate vignette entries
+* fixed get_article_images for URLs without images
+
+## Resubmission
+This is a resubmission. In this version I have:
+
 * excluded readme from build process
 * moved ggplot2 from imports to suggested
 
