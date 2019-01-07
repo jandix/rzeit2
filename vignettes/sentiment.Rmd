@@ -4,7 +4,7 @@ author: "Jan Dix"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to rzeit2}
+  %\VignetteIndexEntry{Sentiment with rzeit2}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

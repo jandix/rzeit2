@@ -41,33 +41,52 @@ get_article_images <- function (url,
 
     # get all articles images
     img <- rvest::html_nodes(article$article, "img.article__media-item")
-    if (length(img) <= 0) return(data.frame(
-      article_url = url,
-      image_url = NA,
-      image_alt = NA,
-      image_caption = NA,
-      image_copyright = NA,
-      image_path = NA,
-      zeit_plus = article$zeit_plus,
-      stringsAsFactors = F
-    ))
+    if (length(img) <= 0) {
 
-    # parse article image text
-    img_alt <- rvest::html_attr(img, "alt")
-    if (length(img_alt) <= 0) img_alt <- NA
-    # parse article image source url
-    img_src <- rvest::html_attr(img, "src")
-    if (length(img_src) <= 0) img_src <- NA
+      # get meta image
+      img <- rvest::html_nodes(article$article, "meta[property='og:image']")
 
-    # parse caption
-    caption_text <- rvest::html_nodes(article$article, ".figure__caption .figure__text")
-    caption_text <- rvest::html_text(caption_text)
-    if (length(caption_text) <= 0) caption_text <- NA
+      # if still no image return empty data frame
+      if (length(img) <= 0) return(data.frame(
+        article_url = url,
+        image_url = NA,
+        image_alt = NA,
+        image_caption = NA,
+        image_copyright = NA,
+        image_path = NA,
+        zeit_plus = article$zeit_plus,
+        stringsAsFactors = F
+      ))
 
-    # parse copyright
-    caption_copyright <- rvest::html_nodes(article$article, ".figure__caption .figure__copyright")
-    caption_copyright <- rvest::html_text(caption_copyright)
-    if (length(caption_copyright) <= 0) caption_copyright <- NA
+      # get image source
+      img_src <- rvest::html_attr(img, "content")
+
+      # set empty fields
+      img_alt <- NA
+
+      # set empty caption
+      caption_text <- NA
+
+      # set empty copyright
+      caption_copyright <- NA
+    } else {
+      # parse article image text
+      img_alt <- rvest::html_attr(img, "alt")
+      if (length(img_alt) <= 0) img_alt <- NA
+      # parse article image source url
+      img_src <- rvest::html_attr(img, "src")
+      if (length(img_src) <= 0) img_src <- NA
+
+      # parse caption
+      caption_text <- rvest::html_nodes(article$article, ".figure__caption .figure__text")
+      caption_text <- rvest::html_text(caption_text)
+      if (length(caption_text) <= 0) caption_text <- NA
+
+      # parse copyright
+      caption_copyright <- rvest::html_nodes(article$article, ".figure__caption .figure__copyright")
+      caption_copyright <- rvest::html_text(caption_copyright)
+      if (length(caption_copyright) <= 0) caption_copyright <- NA
+    }
 
     # hash source url
     md5 <- openssl::md5(img_src)

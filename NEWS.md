@@ -1,3 +1,7 @@
+# version 0.2.3 (2019-01-07)
+
+- fix duplicate vignette entries
+
 # version 0.2.2 (2018-12-06)
 
 - fix get_article_images for URLs without images
